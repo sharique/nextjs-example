@@ -1,12 +1,13 @@
-import NotFoundPage from "@/app/not-found";
+import NotFoundPage from "@/app/products/404";
 import { products } from "@/app/product-data";
 
-export default function ProductDetailPage({
+export default async function ProductDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const product = products.find((p) => p.id === params.id);
+  const id = await params.id;
+  const product = products.find((p) => p.id === id);
 
   if (!product) {
     return <NotFoundPage />;
