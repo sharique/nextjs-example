@@ -1,16 +1,16 @@
 import NotFoundPage from "@/app/products/404";
-import { products } from "@/app/product-data";
 
 type Props = {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-export default function ProductDetailPage({ params }: Props) {
-  const { id } = params;
-  const product = products.find((p) => p.id === id);
+export default async function ProductDetailPage({ params }: Props) {
+  const { id } = await params;
+  const response = await fetch(`http://localhost:3000/api/products/${id}`);
+  const product = await response.json();
 
-  if (!product) {
+  if (!response.ok) {
     return <NotFoundPage />;
   }
 

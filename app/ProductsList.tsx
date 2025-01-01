@@ -23,6 +23,7 @@ export default function ProductsList({ products }: { products: Product[] }) {
           </div>
           <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
           <p className="text-gray-600">${product.price}</p>
+          <button>Add to cart</button>
         </Link>
       ))}
     </div>

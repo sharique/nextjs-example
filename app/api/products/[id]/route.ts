@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: { id: string } },
 ) {
   const { db } = await connectToDb();
-  const { id } = params;
+  const { id } = await params;
   const product = await db.collection("products").findOne({ id });
   if (!product) {
     return new Response(JSON.stringify({ message: "Product not found" }), {

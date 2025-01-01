@@ -10,7 +10,7 @@ export async function connectToDb() {
 
   //const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@cluster0.x7dny.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
-  const client = new MongoClient(process.env.MONGODB_URI, {
+  const client = new MongoClient(process.env.MONGODB_URI!, {
     serverApi: {
       version: ServerApiVersion.v1,
       strict: true,
