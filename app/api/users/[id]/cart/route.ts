@@ -10,8 +10,9 @@ export async function GET(
   { params }: { params: Params },
 ) {
   const { db } = await connectToDb();
-  const { id } = await params;
-  const userCart = await db.collection("carts").findOne({ userId: id });
+
+  const userId = params.id;
+  const userCart = await db.collection("carts").findOne({ userId });
 
   if (!userCart) {
     return new Response(JSON.stringify([]), {
@@ -46,14 +47,14 @@ export async function POST(
 ) {
   const { db } = await connectToDb();
 
-  const { id } = await params;
+  const userId = params.id;
   const body: CartBody = await request.json();
   const productId = body.productId;
 
   const updatedCart = await db
     .collection("carts")
     .findOneAndUpdate(
-      { id },
+      { userId },
       { $push: { cartIds: productId } },
       { upsert: true, returnDocument: "after" },
     );
@@ -76,20 +77,22 @@ export async function DELETE(
   { params }: { params: Params },
 ) {
   const { db } = await connectToDb();
-  const { id } = await params;
+
+  const userId = params.id;
   const body = await request.json();
   const productId = body.productId;
 
   const updatedCart = await db
     .collection("carts")
     .findOneAndUpdate(
-      { id },
+      { userId },
       { $pull: { cartIds: productId } },
       { returnDocument: "after" },
     );
+
   if (!updatedCart) {
     return new Response(JSON.stringify([]), {
-      status: 200,
+      status: 202,
       headers: {
         "Content-Type": "application/json",
       },
@@ -98,9 +101,7 @@ export async function DELETE(
 
   const cartProducts = await db
     .collection("products")
-    .find({
-      id: { $in: updatedCart.cartIds },
-    })
+    .find({ id: { $in: updatedCart.cartIds } })
     .toArray();
 
   return new Response(JSON.stringify(cartProducts), {

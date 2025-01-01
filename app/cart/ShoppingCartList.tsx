@@ -16,7 +16,6 @@ export default function ShoppingCartList({
       <h1 className="text-4xl font-bold mb-8">Shopping Cart</h1>
 
       <ul className="space-y-4">
-        {" "}
         {/* List for cart items */}
         {cartProducts.map((product) => (
           <li
