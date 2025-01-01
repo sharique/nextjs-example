@@ -29,6 +29,21 @@ export default function ProductsList({
     console.log("Cart updated!");
   }
 
+  async function removeFromCart(productId: string) {
+    const response = await fetch("http://localhost:3000/api/users/2/cart", {
+      method: "DELETE",
+      body: JSON.stringify({
+        productId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const updatedCartProducts = await response.json();
+    setCartProducts(updatedCartProducts);
+    console.log("Cart updated!");
+  }
+
   function isProductInCart(productId: string) {
     return cartProducts.some((product) => product.id === productId);
   }
@@ -54,7 +69,15 @@ export default function ProductsList({
           <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
           <p className="text-gray-600">${product.price}</p>
           {isProductInCart(product.id) ? (
-            <button className="bg-red-600 p-3">Remove from cart</button>
+            <button
+              className="bg-red-600 p-3"
+              onClick={(e) => {
+                e.preventDefault();
+                removeFromCart(product.id);
+              }}
+            >
+              Remove from cart
+            </button>
           ) : (
             <button
               onClick={(e) => {

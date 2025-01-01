@@ -11,8 +11,8 @@ export async function GET(
 ) {
   const { db } = await connectToDb();
 
-  const userId = params.id;
-  const userCart = await db.collection("carts").findOne({ userId });
+  const { id } = await params;
+  const userCart = await db.collection("carts").findOne({ userId: id });
 
   if (!userCart) {
     return new Response(JSON.stringify([]), {
@@ -47,14 +47,14 @@ export async function POST(
 ) {
   const { db } = await connectToDb();
 
-  const userId = params.id;
+  const { id } = await params;
   const body: CartBody = await request.json();
   const productId = body.productId;
 
   const updatedCart = await db
     .collection("carts")
     .findOneAndUpdate(
-      { userId },
+      { userId: id },
       { $push: { cartIds: productId } },
       { upsert: true, returnDocument: "after" },
     );
@@ -78,14 +78,14 @@ export async function DELETE(
 ) {
   const { db } = await connectToDb();
 
-  const userId = params.id;
+  const { id } = await params;
   const body = await request.json();
   const productId = body.productId;
 
   const updatedCart = await db
     .collection("carts")
     .findOneAndUpdate(
-      { userId },
+      { userId: id },
       { $pull: { cartIds: productId } },
       { returnDocument: "after" },
     );
