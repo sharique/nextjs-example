@@ -15,37 +15,46 @@ export default function ProductsList({
   const [cartProducts, setCartProducts] = useState(initialCartProducts);
 
   async function addToCart(productId: string) {
-    const response = await fetch("http://localhost:3000/api/users/2/cart", {
-      method: "POST",
-      body: JSON.stringify({
-        productId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      process.env.NEXTJS_APP_BASEURL + "/api/users/2/cart",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          productId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
     const updatedCartProducts = await response.json();
     setCartProducts(updatedCartProducts);
-    console.log("Cart updated!");
   }
 
   async function removeFromCart(productId: string) {
-    const response = await fetch("http://localhost:3000/api/users/2/cart", {
-      method: "DELETE",
-      body: JSON.stringify({
-        productId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
+    const endpoint = "/api/users/2/cart";
+    const url = `${process.env.NEXTJS_APP_BASEURL}${endpoint}`;
+    console.log(url);
+    console.log(process.env.NEXTJS_APP_BASEURL);
+    const response = await fetch(
+      // process.env.NEXTJS_APP_BASEURL + "/api/users/2/cart",
+      url,
+      {
+        method: "DELETE",
+        body: JSON.stringify({
+          productId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    });
+    );
     const updatedCartProducts = await response.json();
     setCartProducts(updatedCartProducts);
-    console.log("Cart updated!");
   }
 
-  function isProductInCart(productId: string) {
-    return cartProducts.some((product) => product.id === productId);
+  function productIsInCart(productId: string) {
+    return cartProducts.some((cp) => cp.id === productId);
   }
 
   return (
@@ -68,23 +77,23 @@ export default function ProductsList({
           </div>
           <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
           <p className="text-gray-600">${product.price}</p>
-          {isProductInCart(product.id) ? (
+          {productIsInCart(product.id) ? (
             <button
-              className="bg-red-600 p-3"
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full"
               onClick={(e) => {
                 e.preventDefault();
                 removeFromCart(product.id);
               }}
             >
-              Remove from cart
+              Remove from Cart
             </button>
           ) : (
             <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
               onClick={(e) => {
                 e.preventDefault();
                 addToCart(product.id);
               }}
-              className="bg-blue-600 p-3"
             >
               Add to Cart
             </button>

@@ -2,17 +2,22 @@ import ProductsList from "../ProductsList";
 
 export const dynamic = "force-dynamic";
 export default async function ProductsPage() {
-  const response = await fetch("http://localhost:3000/api/products");
+  const response = await fetch(
+    process.env.NEXTJS_APP_BASEURL! + "/api/products",
+  );
   const products = await response.json();
 
   // Fetch user's cart.
 
-  const cartResponse = await fetch("http://localhost:3000/api/users/2/cart", {
-    cache: "no-cache",
-    headers: {
-      "Content-Type": "application/json",
+  const cartResponse = await fetch(
+    process.env.NEXTJS_APP_BASEURL + "/api/users/2/cart",
+    {
+      cache: "no-cache",
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
   const cartProducts = await cartResponse.json();
 
   return (
