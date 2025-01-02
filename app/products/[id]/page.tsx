@@ -17,7 +17,7 @@ export default async function ProductDetailPage({ params }: Props) {
   }
 
   return (
-    <div className="container mx-auto p-8 flex flex-col md:flex-row">
+    <div className="container mx-auto p-8 flex flex-col md:flex-row bg-white">
       <div className="md:w-1/2 mb-4 md:mb-0 md:mr-8">
         <img
           src={"/" + product.imageUrl}

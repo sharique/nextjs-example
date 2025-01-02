@@ -31,7 +31,6 @@ export default function ProductsList({
     setCartProducts(updatedCartProducts);
   }
 
-  console.log(process.env.NEXT_PUBLIC_BASEURL + "/api/users/2/cart");
   async function removeFromCart(productId: string) {
     const response = await fetch(
       process.env.NEXT_PUBLIC_BASEURL + "/api/users/2/cart",

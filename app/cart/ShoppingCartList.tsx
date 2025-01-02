@@ -9,7 +9,24 @@ export default function ShoppingCartList({
 }: {
   initialCartProducts: Product[];
 }) {
-  const [cartProducts] = useState(initialCartProducts);
+  const [cartProducts, setCartProducts] = useState(initialCartProducts);
+
+  async function removeFromCart(productId: string) {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_BASEURL + "/api/users/2/cart",
+      {
+        method: "DELETE",
+        body: JSON.stringify({
+          productId,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    const updatedCartProducts = await response.json();
+    setCartProducts(updatedCartProducts);
+  }
 
   return (
     <div className="container mx-auto p-8">
@@ -22,10 +39,22 @@ export default function ShoppingCartList({
             key={product.id}
             className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition duration-300"
           >
-            <Link href={`/products/${product.id}`}>
-              <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
-              <p className="text-gray-600">${product.price}</p>
-            </Link>
+            <div className="flex justify-between">
+              <Link href={`/products/${product.id}`}>
+                <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                <p className="text-gray-600">${product.price}</p>
+              </Link>
+
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded-md mt-4"
+                onClick={(e) => {
+                  e.preventDefault();
+                  removeFromCart(product.id);
+                }}
+              >
+                Remove from cart
+              </button>
+            </div>
           </li>
         ))}
       </ul>

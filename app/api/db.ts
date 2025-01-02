@@ -23,7 +23,5 @@ export async function connectToDb() {
   cachedClient = client;
   cachedDb = client.db("learn-nextjs");
 
-  console.log("Db is connected");
-
   return { client, db: client.db("learn-nextjs") };
 }
