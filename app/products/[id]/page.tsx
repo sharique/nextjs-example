@@ -8,7 +8,7 @@ type Props = {
 export default async function ProductDetailPage({ params }: Props) {
   const { id } = await params;
   const response = await fetch(
-    process.env.NEXTJS_APP_BASEURL + `/api/products/${id}`,
+    process.env.NEXT_PUBLIC_BASEURL + `/api/products/${id}`,
   );
   const product = await response.json();
 

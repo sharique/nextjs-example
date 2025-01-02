@@ -16,7 +16,7 @@ export default function ProductsList({
 
   async function addToCart(productId: string) {
     const response = await fetch(
-      process.env.NEXTJS_APP_BASEURL + "/api/users/2/cart",
+      process.env.NEXT_PUBLIC_BASEURL + "/api/users/2/cart",
       {
         method: "POST",
         body: JSON.stringify({
@@ -31,14 +31,10 @@ export default function ProductsList({
     setCartProducts(updatedCartProducts);
   }
 
+  console.log(process.env.NEXT_PUBLIC_BASEURL + "/api/users/2/cart");
   async function removeFromCart(productId: string) {
-    const endpoint = "/api/users/2/cart";
-    const url = `${process.env.NEXTJS_APP_BASEURL}${endpoint}`;
-    console.log(url);
-    console.log(process.env.NEXTJS_APP_BASEURL);
     const response = await fetch(
-      // process.env.NEXTJS_APP_BASEURL + "/api/users/2/cart",
-      url,
+      process.env.NEXT_PUBLIC_BASEURL + "/api/users/2/cart",
       {
         method: "DELETE",
         body: JSON.stringify({
