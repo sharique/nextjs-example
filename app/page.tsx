@@ -11,7 +11,10 @@ export default function Home() {
           </p>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+      <footer
+        className="row-start-3 flex gap-6 flex-wrap items-center justify-center"
+        role="footer"
+      >
         <div>@{new Date().getFullYear()} Example.com</div>
       </footer>
     </div>
